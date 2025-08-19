@@ -1,0 +1,91 @@
+#include <iostream>
+#include <stack>
+#include <cstring>
+using namespace std;
+
+struct Book {
+    int id;
+    char title[50];
+    char author[30];
+    int available;   // 1=available, 0=borrowed
+    Book* next;
+};
+
+Book* head = NULL;
+stack<string> undoStack;
+
+void addBook() {
+    Book* newBook = new Book;
+    cout << "Enter ID: ";
+    cin >> newBook->id;
+    cout << "Enter Title: ";
+    cin.ignore();
+    cin.getline(newBook->title, 50);
+    cout << "Enter Author: ";
+    cin.getline(newBook->author, 30);
+    newBook->available = 1;
+    newBook->next = head;
+    head = newBook;
+    undoStack.push("Added " + string(newBook->title));
+}
+
+void displayBooks() {
+    Book* temp = head;
+    while (temp) {
+        cout << temp->id << " | " << temp->title << " | " << temp->author
+             << " | " << (temp->available ? "Available" : "Borrowed") << endl;
+        temp = temp->next;
+    }
+}
+
+void borrowBook(int id) {
+    Book* temp = head;
+    while (temp) {
+        if (temp->id == id && temp->available == 1) {
+            temp->available = 0;
+            cout << "Book borrowed: " << temp->title << endl;
+            undoStack.push("Borrowed " + string(temp->title));
+            return;
+        }
+        temp = temp->next;
+    }
+    cout << "Book not available.\n";
+}
+
+void returnBook(int id) {
+    Book* temp = head;
+    while (temp) {
+        if (temp->id == id && temp->available == 0) {
+            temp->available = 1;
+            cout << "Book returned: " << temp->title << endl;
+            undoStack.push("Returned " + string(temp->title));
+            return;
+        }
+        temp = temp->next;
+    }
+    cout << "Book not borrowed.\n";
+}
+
+void undoLast() {
+    if (!undoStack.empty()) {
+        cout << "Undo: " << undoStack.top() << endl;
+        undoStack.pop();
+    } else {
+        cout << "Nothing to undo.\n";
+    }
+}
+
+int main() {
+    int ch, id;
+    do {
+        cout << "\n--- E-Library ---\n";
+        cout << "1. Add Book\n2. Display Books\n3. Borrow Book\n4. Return Book\n5. Undo Last\n0. Exit\nChoice: ";
+        cin >> ch;
+        switch(ch) {
+            case 1: addBook(); break;
+            case 2: displayBooks(); break;
+            case 3: cout << "Enter Book ID: "; cin >> id; borrowBook(id); break;
+            case 4: cout << "Enter Book ID: "; cin >> id; returnBook(id); break;
+            case 5: undoLast(); break;
+        }
+    } while(ch != 0);
