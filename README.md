@@ -1,68 +1,53 @@
 # E.library
-🔹 Project Overview
 
-This project is a console-based library management system.
-Users can:
+Project Overview
 
-Add new books to the inventory.
+This project is a console-based library management system. Users can:
 
-Borrow a book (if available).
+Add new books to the inventory.  
+Borrow a book if it's available.  
+Return a book.  
+Undo the last borrow or return action using a stack.  
+Search or filter for books by title or author.  
+Display all books in the library.  
 
-Return a book.
+Features in Detail  
+1. Inventory Management (Linked List)  
 
-Undo the last borrow/return action using a stack.
+Each book is a node in the linked list with fields:  
 
-Search/filter for books by title or author.
+Book ID  
+Title  
+Author  
+Availability (Yes or No)  
+Easy insertion or deletion of books.  
 
-Display all books in the library.
+2. Borrow and Return  
 
-🔹 Features in Detail
-1. Inventory Management (Linked List)
+When a user borrows a book:  
 
-Each book is a node in the linked list with fields:
+Status changes to Unavailable.  
+Action is pushed onto the stack.  
 
-Book ID
+When a user returns a book:  
 
-Title
+Status changes to Available.  
+Action is pushed onto the stack.  
 
-Author
+3. Undo Functionality (Stack)  
 
-Availability (Yes/No)
+Undo the last action, whether it was a borrow or return.  
+Pop the action from the stack and reverse it.  
 
-Easy insertion/deletion of books.
+Example: If the last action was borrowing Book A, undoing will mark it available again.  
 
-2. Borrow & Return
+4. Search and Filter  
 
-When a user borrows a book:
+Search by title or author in the linked list.  
+Case-insensitive matching improves usability.  
 
-Status changes to Unavailable.
+How to Run  
 
-Action is pushed onto the stack.
-
-When a user returns a book:
-
-Status changes to Available.
-
-Action is pushed onto the stack.
-
-3. Undo Functionality (Stack)
-
-Undo the last action (borrow/return).
-
-Pop action from the stack and reverse it.
-
-Example: If the last action was borrow Book A, undo will mark it available again.
-
-4. Search & Filter
-
-Search by title or author in the linked list.
-
-Case-insensitive matching for better usability.
-
-🔹 How to Run
-
-Compile the C++ code (g++ elibrary.cpp -o elibrary).
-
-Run the program (./elibrary).
-
-Menu will display options:
+Compile the C++ code (g++ elibrary.cpp -o elibrary).  
+Run the program (./elibrary).  
+The menu will display options:
